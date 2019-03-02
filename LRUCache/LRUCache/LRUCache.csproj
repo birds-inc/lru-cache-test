@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ILRUCache.cs" />
     <Compile Include="LRUCache.cs" />
+    <Compile Include="Model\CacheEntry.cs" />
     <Compile Include="Model\Exceptions\CacheKeyNotFoundException.cs" />
     <Compile Include="Model\KeyComparator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

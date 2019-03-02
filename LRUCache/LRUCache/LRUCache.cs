@@ -10,12 +10,12 @@ namespace LRUCache
 {
     public class LRUCache : ILRUCache {
         #region class members
-        private Dictionary<byte[], byte[]> _cache;
+        private Dictionary<byte[], CacheEntry> _cache;
         #endregion
 
         #region public methods
         public LRUCache() {
-            _cache = new Dictionary<byte[], byte[]>(new KeyComparator());
+            _cache = new Dictionary<byte[], CacheEntry>(new KeyComparator());
         }
 
         public void SetCapacity(int numberOfBytes) {
@@ -23,15 +23,16 @@ namespace LRUCache
 
         public byte[] Get(byte[] key) {
             try {
-                return CloneByteArray(_cache[key]);
+                return _cache[key].GetValueCopy();
             }
             catch (KeyNotFoundException e) {
-                throw new CacheKeyNotFoundException(GetStringFromBytes(key), e);
+                throw new CacheKeyNotFoundException(key, e);
             }
         }
 
         public void Put(byte[] key, byte[] value) {
-            _cache[CloneByteArray(key)] = CloneByteArray(value);
+            var entry = new CacheEntry(key, value);
+            _cache[entry.GetKey()] = entry;
         }
 
         public bool Contains(byte[] key) {
@@ -40,20 +41,6 @@ namespace LRUCache
 
         public void Delete(byte[] key) {
             _cache.Remove(key);
-        }
-        #endregion
-
-        #region private methods
-        private byte[] GetBytesFromString(string s) {
-            return System.Text.Encoding.UTF8.GetBytes(s);
-        }
-
-        private string GetStringFromBytes(byte[] b) {
-            return System.Text.Encoding.UTF8.GetString(b);
-        }
-
-        private byte[] CloneByteArray(byte[] b) {
-            return (byte[])b.Clone();
         }
         #endregion
     }
