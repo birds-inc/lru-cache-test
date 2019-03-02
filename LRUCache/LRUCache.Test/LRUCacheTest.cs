@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using LRUCache;
+using LRUCache.Model.Exceptions;
 
 namespace LRUCache.Test {
     [TestClass]
@@ -35,8 +36,8 @@ namespace LRUCache.Test {
 
         #region tests
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void LRUCache_GetNonExistentKey_ThrowsKeyNotFoundException() {
+        [ExpectedException(typeof(CacheKeyNotFoundException))]
+        public void LRUCache_GetNonExistentKey_ThrowsCacheKeyNotFoundException() {
             _lru.Get(TestKeyBytes);
         }
 
@@ -65,8 +66,8 @@ namespace LRUCache.Test {
         }
 
         [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void LRUCache_GetDeletedValue_ThrowsKeyNotFoundException() {
+        [ExpectedException(typeof(CacheKeyNotFoundException))]
+        public void LRUCache_GetDeletedValue_ThrowsCacheKeyNotFoundException() {
             byte[] key = TestKeyBytes;
             byte[] value = TestValueBytes;
 
