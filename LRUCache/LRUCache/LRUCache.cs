@@ -1,4 +1,5 @@
-﻿using LRUCache.Model.Exceptions;
+﻿using LRUCache.Model;
+using LRUCache.Model.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace LRUCache
 
         #region public methods
         public LRUCache() {
-            _cache = new Dictionary<byte[], byte[]>();
+            _cache = new Dictionary<byte[], byte[]>(new KeyComparator());
         }
 
         public void SetCapacity(int numberOfBytes) {
