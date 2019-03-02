@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace LRUCache
 {
-    public class LRUCache : ILRUCache
-    {
+    public class LRUCache : ILRUCache {
         #region class members
         private Dictionary<byte[], byte[]> _cache;
         #endregion
@@ -23,22 +22,22 @@ namespace LRUCache
 
         public byte[] Get(byte[] key) {
             try {
-                return _cache[key];
+                return CloneByteArray(_cache[key]);
             }
             catch (KeyNotFoundException e) {
                 throw new CacheKeyNotFoundException(GetStringFromBytes(key), e);
             }
         }
 
-        public void Put(byte[] key, byte[] value){
-            _cache[key] = value;
+        public void Put(byte[] key, byte[] value) {
+            _cache[CloneByteArray(key)] = CloneByteArray(value);
         }
-        
-        public bool Contains(byte[] key){
+
+        public bool Contains(byte[] key) {
             return _cache.ContainsKey(key);
         }
 
-        public void Delete(byte[] key){
+        public void Delete(byte[] key) {
             _cache.Remove(key);
         }
         #endregion
@@ -50,6 +49,10 @@ namespace LRUCache
 
         private string GetStringFromBytes(byte[] b) {
             return System.Text.Encoding.UTF8.GetString(b);
+        }
+
+        private byte[] CloneByteArray(byte[] b) {
+            return (byte[])b.Clone();
         }
         #endregion
     }

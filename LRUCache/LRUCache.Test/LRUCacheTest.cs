@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using LRUCache;
 using LRUCache.Model.Exceptions;
+using System.Linq;
 
 namespace LRUCache.Test {
     [TestClass]
@@ -49,7 +50,7 @@ namespace LRUCache.Test {
             _lru.Put(key, value);
 
             byte[] returnedValue = _lru.Get(key);
-            Assert.AreEqual(value, returnedValue);
+            Assert.IsTrue(value.SequenceEqual(returnedValue));
         }
 
         [TestMethod]
@@ -62,7 +63,7 @@ namespace LRUCache.Test {
             _lru.Put(key, valueNew);
 
             byte[] returnedValue = _lru.Get(key);
-            Assert.AreEqual(valueNew, returnedValue);
+            Assert.IsTrue(valueNew.SequenceEqual(returnedValue));
         }
 
         [TestMethod]
