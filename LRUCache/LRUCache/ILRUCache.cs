@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache {
-    interface ILRUCache {
+    public interface ILRUCache {
         byte[] Get(byte[] key);
         void Put(byte[] key, byte[] value);
         bool Contains(byte[] key);
