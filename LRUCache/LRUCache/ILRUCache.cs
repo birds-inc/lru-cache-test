@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace LRUCache {
     public interface ILRUCache {
+        void SetCapacity(int numberOfBytes);
+
         byte[] Get(byte[] key);
         void Put(byte[] key, byte[] value);
         bool Contains(byte[] key);

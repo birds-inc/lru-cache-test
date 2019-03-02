@@ -34,7 +34,7 @@ namespace LRUCache.Test {
         }
         #endregion
 
-        #region tests
+        #region basic tests
         [TestMethod]
         [ExpectedException(typeof(CacheKeyNotFoundException))]
         public void LRUCache_GetNonExistentKey_ThrowsCacheKeyNotFoundException() {
@@ -92,6 +92,71 @@ namespace LRUCache.Test {
 
             bool isContained = _lru.Contains(key);
             Assert.IsFalse(isContained);
+        }
+        #endregion
+
+        #region least recently used tests
+        [TestMethod]
+        public void LRUCache_CacheHitsCapacity_AllItemsCached() {
+            // ASCII encodes to one byte per character
+            byte[] item1 = System.Text.Encoding.UTF8.GetBytes("a");
+            byte[] item2 = System.Text.Encoding.UTF8.GetBytes("b");
+            byte[] item3 = System.Text.Encoding.UTF8.GetBytes("c");
+            byte[] item4 = System.Text.Encoding.UTF8.GetBytes("d");
+
+            _lru.SetCapacity(4);
+            _lru.Put(item1, item1);
+            _lru.Put(item2, item2);
+            _lru.Put(item3, item3);
+            _lru.Put(item4, item4);
+
+            Assert.IsTrue(_lru.Contains(item1));
+            Assert.IsTrue(_lru.Contains(item2));
+            Assert.IsTrue(_lru.Contains(item3));
+            Assert.IsTrue(_lru.Contains(item4));
+        }
+
+        [TestMethod]
+        public void LRUCache_CacheExceedsCapacity_LeastRecentlyUsedItemEvicted() {
+            // ASCII encodes to one byte per character
+            byte[] item1 = System.Text.Encoding.UTF8.GetBytes("a");
+            byte[] item2 = System.Text.Encoding.UTF8.GetBytes("b");
+            byte[] item3 = System.Text.Encoding.UTF8.GetBytes("c");
+            byte[] item4 = System.Text.Encoding.UTF8.GetBytes("d");
+
+            _lru.SetCapacity(3);
+            _lru.Put(item1, item1);
+            _lru.Put(item2, item2);
+            _lru.Put(item3, item3);
+            _lru.Put(item4, item4);
+
+            // item 1 was least recently used, so it has been evicted from the cache
+            Assert.IsFalse(_lru.Contains(item1));
+            Assert.IsTrue(_lru.Contains(item2));
+            Assert.IsTrue(_lru.Contains(item3));
+            Assert.IsTrue(_lru.Contains(item4));
+        }
+
+        [TestMethod]
+        public void LRUCache_CacheExceedsCapacityAfterItemAccessed_LeastRecentlyUsedItemEvicted() {
+            // ASCII encodes to one byte per character
+            byte[] item1 = System.Text.Encoding.UTF8.GetBytes("a");
+            byte[] item2 = System.Text.Encoding.UTF8.GetBytes("b");
+            byte[] item3 = System.Text.Encoding.UTF8.GetBytes("c");
+            byte[] item4 = System.Text.Encoding.UTF8.GetBytes("d");
+
+            _lru.SetCapacity(3);
+            _lru.Put(item1, item1);
+            _lru.Put(item2, item2);
+            _lru.Put(item3, item3);
+            _lru.Get(item1);
+            _lru.Put(item4, item4);
+
+            // item 2 was least recently used, so it has been evicted from the cache
+            Assert.IsTrue(_lru.Contains(item1));
+            Assert.IsFalse(_lru.Contains(item2));
+            Assert.IsTrue(_lru.Contains(item3));
+            Assert.IsTrue(_lru.Contains(item4));
         }
         #endregion
     }

@@ -18,6 +18,9 @@ namespace LRUCache
             _cache = new Dictionary<byte[], byte[]>();
         }
 
+        public void SetCapacity(int numberOfBytes) {
+        }
+
         public byte[] Get(byte[] key) {
             try {
                 return _cache[key];
