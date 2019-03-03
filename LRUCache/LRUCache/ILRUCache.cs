@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache {
+    /// <summary>
+    /// Defines the basic interface used to interact with the cache
+    /// </summary>
     public interface ILRUCache {
         void SetCapacity(int numberOfBytes);
 
