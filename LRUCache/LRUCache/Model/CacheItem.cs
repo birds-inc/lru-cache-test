@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache.Model {
+    [Serializable]
     public class CacheItem {
         #region private members
         private byte[] _key;
@@ -30,7 +31,7 @@ namespace LRUCache.Model {
         public byte[] GetKeyCopy() { return (byte[])_key.Clone(); }
         public byte[] GetValueCopy() { return (byte[])_value.Clone(); }
 
-        public int GetSize() { return _value.Length; }
+        public UInt64 GetSize() { return (UInt64)_value.Length; }
         #endregion public method
 
         #region equality

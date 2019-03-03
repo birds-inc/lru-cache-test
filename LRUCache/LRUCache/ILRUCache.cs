@@ -9,7 +9,7 @@ namespace LRUCache {
     /// Defines the basic interface used to interact with the cache
     /// </summary>
     public interface ILRUCache {
-        void SetCapacity(int numberOfBytes);
+        void SetCapacity(UInt64 numberOfBytes);
 
         byte[] Get(byte[] key);
         void Put(byte[] key, byte[] value);

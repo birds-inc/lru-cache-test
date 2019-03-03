@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache {
+    [Serializable]
     public class LRUCache : ILRUCache {
         /// <summary>
         /// Implements a last-recently-used cache
@@ -14,7 +15,8 @@ namespace LRUCache {
         
         #region constants
         // default capacity is 1GB
-        const int DEFAULT_CAPACITY = 1024 * 1024 * 1024;
+        // you can use the included LRUCache.Program to determine a good target value for your machine
+        const UInt64 DEFAULT_CAPACITY = 1024 * 1024 * 1024;
         #endregion
 
         #region class members
@@ -27,11 +29,13 @@ namespace LRUCache {
         /// stores a doubly-linked list of cached items
         /// </summary>
         private CacheList _cacheList;
-        
+        #endregion
+
+        #region public properties 
         /// <summary>
         /// total capacity of cache in bytes
         /// </summary>
-        private int _capacity;
+        public UInt64 Capacity { get; private set; }
         #endregion
 
         #region constructors
@@ -39,7 +43,7 @@ namespace LRUCache {
         /// Create a new Least-Recently-Used cache
         /// </summary>
         /// <param name="capacity"></param>
-        public LRUCache(int capacity) {
+        public LRUCache(UInt64 capacity) {
             _cacheDictionary = new Dictionary<byte[], CacheItem>(new ByteArrayComparer());
             _cacheList = new CacheList();
             SetCapacity(capacity);
@@ -56,9 +60,9 @@ namespace LRUCache {
         /// Sets a new total capacity, in bytes, for the cache.
         /// Will evict cached items as necessary.
         /// </summary>
-        public void SetCapacity(int capacityInBytes) {
+        public void SetCapacity(UInt64 capacityInBytes) {
             EnsureCapacity(capacityInBytes);
-            _capacity = capacityInBytes;
+            Capacity = capacityInBytes;
         }
 
         /// <summary>
@@ -90,7 +94,7 @@ namespace LRUCache {
                 _cacheList.RemoveItem(origItem);
             }
 
-            int targetCapacity = _capacity - item.GetSize();
+            UInt64 targetCapacity = Capacity - item.GetSize();
             EnsureCapacity(targetCapacity);
             _cacheList.InsertItemAtHead(item);
 
@@ -113,10 +117,17 @@ namespace LRUCache {
             _cacheDictionary.Remove(key);
             _cacheList.RemoveItem(item);
         }
+
+        /// <summary>
+        /// Get total capacity consumed
+        /// </summary>
+        public UInt64 GetUsedCapacity() {
+            return _cacheList.TotalSize;
+        }
         #endregion
 
         #region private methods
-        private void EnsureCapacity(int targetCapacity) {
+        private void EnsureCapacity(UInt64 targetCapacity) {
             while (_cacheList.TotalSize > targetCapacity) {
                 var item = _cacheList.RemoveLastItem();
                 _cacheDictionary.Remove(item.GetKey());

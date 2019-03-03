@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache.Model {
+    [Serializable]
     class ByteArrayComparer : EqualityComparer<byte[]> {
         public override bool Equals(byte[] bytes1, byte[] bytes2) {
             return bytes1.SequenceEqual(bytes2);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LRUCache.Model {
+    [Serializable]
     public class CacheList {
         #region private members
         private CacheItem _head;
@@ -12,7 +13,7 @@ namespace LRUCache.Model {
         #endregion
 
         #region public properties
-        public int TotalSize { get; private set; }
+        public UInt64 TotalSize { get; private set; }
         #endregion
 
         #region constructor
