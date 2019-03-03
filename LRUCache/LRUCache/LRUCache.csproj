@@ -42,9 +42,10 @@
   <ItemGroup>
     <Compile Include="ILRUCache.cs" />
     <Compile Include="LRUCache.cs" />
-    <Compile Include="Model\CacheEntry.cs" />
+    <Compile Include="Model\CacheItem.cs" />
+    <Compile Include="Model\CacheList.cs" />
     <Compile Include="Model\Exceptions\CacheKeyNotFoundException.cs" />
-    <Compile Include="Model\KeyComparator.cs" />
+    <Compile Include="Model\ByteArrayComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

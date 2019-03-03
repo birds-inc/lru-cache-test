@@ -9,9 +9,13 @@ namespace LRUCache.Model.Exceptions {
             : base("Key not found: " + keyName) { }
 
         public CacheKeyNotFoundException(byte[] keyName)
-            : this(System.Text.Encoding.UTF8.GetString(keyName)) { }
+            : this(GetStringForBytes(keyName)) { }
 
         public CacheKeyNotFoundException(byte[] keyName, Exception innerException)
-            : this(System.Text.Encoding.UTF8.GetString(keyName), innerException) { }
+            : this(GetStringForBytes(keyName), innerException) { }
+
+        private static string GetStringForBytes(byte[] bytes) {
+            return System.Text.Encoding.UTF8.GetString(bytes);
+        }
     }
 }
