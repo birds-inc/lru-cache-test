@@ -31,8 +31,9 @@ namespace LRUCache
         #endregion
 
         #region public methods
-        public void SetCapacity(int numberOfBytes) {
-            _capacity = numberOfBytes;
+        public void SetCapacity(int capacityInBytes) {
+            EnsureCapacity(capacityInBytes);
+            _capacity = capacityInBytes;
         }
 
         public byte[] Get(byte[] key) {

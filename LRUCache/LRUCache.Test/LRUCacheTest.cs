@@ -159,6 +159,53 @@ namespace LRUCache.Test {
             Assert.IsTrue(_lru.Contains(item3));
             Assert.IsTrue(_lru.Contains(item4));
         }
+
+        [TestMethod]
+        public void LRUCache_CacheExceedsCapacity_MultipleItemsEvicted() {
+            // ASCII encodes to one byte per character
+            byte[] item1 = System.Text.Encoding.UTF8.GetBytes("a");
+            byte[] item2 = System.Text.Encoding.UTF8.GetBytes("ab");
+            byte[] item3 = System.Text.Encoding.UTF8.GetBytes("abc");
+            byte[] item4 = System.Text.Encoding.UTF8.GetBytes("abcd");
+
+            // capacity of 7 ensures we can only hold last two keys
+            _lru.SetCapacity(7);
+            _lru.Put(item1, item1);
+            _lru.Put(item2, item2);
+            _lru.Put(item3, item3);
+            _lru.Put(item4, item4);
+
+            // both a and ab have been evicted to make space
+            Assert.IsFalse(_lru.Contains(item1));
+            Assert.IsFalse(_lru.Contains(item2));
+            Assert.IsTrue(_lru.Contains(item3));
+            Assert.IsTrue(_lru.Contains(item4));
+        }
+
+        [TestMethod]
+        public void LRUCache_CapacityIsDecreased_MultipleItemsEvicted() {
+            // ASCII encodes to one byte per character
+            byte[] item1 = System.Text.Encoding.UTF8.GetBytes("a");
+            byte[] item2 = System.Text.Encoding.UTF8.GetBytes("ab");
+            byte[] item3 = System.Text.Encoding.UTF8.GetBytes("abc");
+            byte[] item4 = System.Text.Encoding.UTF8.GetBytes("abcd");
+
+            // capacity of 10 we can hold all items
+            _lru.SetCapacity(10);
+            _lru.Put(item1, item1);
+            _lru.Put(item2, item2);
+            _lru.Put(item3, item3);
+            _lru.Put(item4, item4);
+
+            // capacity of 5 will force all but last item out, with one byte free
+            _lru.SetCapacity(5);
+
+            // both a and ab have been evicted to make space
+            Assert.IsFalse(_lru.Contains(item1));
+            Assert.IsFalse(_lru.Contains(item2));
+            Assert.IsFalse(_lru.Contains(item3));
+            Assert.IsTrue(_lru.Contains(item4));
+        }
         #endregion
     }
 }

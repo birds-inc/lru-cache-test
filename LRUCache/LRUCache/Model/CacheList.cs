@@ -67,15 +67,12 @@ namespace LRUCache.Model {
         }
 
         public CacheItem RemoveLastItem() {
-            try {
+            if (_tail != null) {
                 var item = _tail;
                 RemoveItem(item);
                 return item;
             }
-            catch (NullReferenceException e) {
-                // TODO raise custom exception and add tests for this case
-                throw;
-            }
+            return null;
         }
         #endregion
     }
